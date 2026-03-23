@@ -33,7 +33,7 @@ export const useTrello = () =>{
                         try {
                                 setFLoading(true)
                                 const data = await getOrganizationDetails({organizationId})
-                                setOrganizations(data.organization)
+                                setOrganization(data.organization)
                         } catch (error) {
                                 setOrganization(null)
                                 throw error
@@ -78,6 +78,7 @@ export const useTrello = () =>{
                  try {
                          setTLoading(true)
                         const data = await createBoard({organizationId,title})
+                        return data
                 } catch (error) {
                                 throw error
                  }finally{

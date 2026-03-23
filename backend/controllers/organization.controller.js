@@ -79,7 +79,7 @@ async function getOrganizationController(req,res,_next){
                         }
                 })}
 
-                const boards = store.boards.filter(board=>board.organizationId===organizationId)
+                const boards = store.boards.filter(board=>board.organizationId===Number(organizationId))
                 detailedOrganization.boards = boards
                 sendSuccess(res,STATUS_CODE.OK,{organization:detailedOrganization},MESSAGES.ORGANIZATIONS_FETCHED)
 

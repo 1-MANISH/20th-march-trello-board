@@ -1,0 +1,236 @@
+.organization-page {
+  padding: 1rem;
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(180deg, #eef2ff 0%, #fdfdff 100%);
+}
+
+.organization-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.organization-top-card {
+  background: #ffffff;
+  border: 1px solid rgba(45, 80, 192, 0.2);
+  border-radius: 0.85rem;
+  box-shadow: rgba(45, 80, 192, 0.15) 0 8px 24px;
+  padding: 1.15rem 1.25rem;
+}
+
+.organization-top-card h1 {
+  margin: 0 0 0.45rem;
+  font-size: 1.75rem;
+  color: var(--accent-color);
+}
+
+.organization-top-card p {
+  margin: 0 0 0.5rem;
+  color: #565f84;
+  font-size: 1rem;
+}
+
+.organization-top-card .organization-meta {
+  font-size: 0.88rem;
+  color: #7280a4;
+  font-weight: 600;
+}
+
+.organization-body {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.organization-left,
+.organization-right {
+  background: #ffffff;
+  border: 1px solid rgba(45, 80, 192, 0.18);
+  border-radius: 0.85rem;
+  box-shadow: rgba(45, 80, 192, 0.11) 0 6px 18px;
+  padding: 1rem;
+}
+
+.organization-left {
+  display: flex;
+  flex-direction: column;
+  min-height: 75vh;
+}
+
+.subpanel {
+  margin-bottom: 1rem;
+}
+
+.subpanel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+  color: #243366;
+  border-bottom: 1px solid rgba(37, 60, 118, 0.16);
+  padding-bottom: 0.45rem;
+}
+
+.list-box {
+  max-height: calc(75vh - 108px);
+  overflow-y: auto;
+  display: grid;
+  gap: 0.6rem;
+  padding-right: 0.5rem;
+}
+
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px dashed rgba(63, 103, 204, 0.4);
+  border-radius: 0.65rem;
+  background: rgba(232, 239, 255, 0.75);
+  padding: 0.65rem;
+}
+
+.item-row div span {
+  font-weight: 600;
+  color: #27356f;
+}
+
+.item-row div small {
+  display: block;
+  color: #6a7598;
+  font-size: 0.82rem;
+}
+
+.board-link {
+  width: 100%;
+  padding: 0.65rem;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  background: rgba(61, 99, 221, 0.06);
+  border-radius: 0.62rem;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.board-link:hover {
+  background: rgba(61, 99, 221, 0.16);
+}
+
+.empty {
+  color: #717d9a;
+  font-style: italic;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.organization-right {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 1rem;
+}
+
+.panel {
+  border: 1px solid rgba(45, 80, 192, 0.18);
+  border-radius: 0.75rem;
+  padding: 0.95rem;
+}
+
+.action-form {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.action-form select,
+.action-form input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(107, 123, 170, 0.4);
+  background: #fcfdff;
+  color: #28355d;
+}
+
+.primary-btn,
+.danger-btn {
+  border: none;
+  border-radius: 0.62rem;
+  padding: 0.58rem 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-btn {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+.danger-btn {
+  background: #e64a4a;
+  color: #fff;
+  border: 1px solid #d33a3a;
+}
+
+.message {
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.message.error {
+  background: #ffe9e9;
+  color: #a21f1f;
+}
+
+.message.success {
+  background: #e7f5ea;
+  color: #1f6f29;
+}
+
+/* custom scrollbar for lists */
+.list-box::-webkit-scrollbar {
+  width: 10px;
+}
+
+.list-box::-webkit-scrollbar-track {
+  background: #e6ebfb;
+  border-radius: 999px;
+}
+
+.list-box::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 999px;
+}
+
+.list-box::-webkit-scrollbar-thumb:hover {
+  background: #1f46be;
+}
+
+@media (max-width: 1024px) {
+  .organization-body {
+    grid-template-columns: 1fr;
+  }
+
+  .organization-left {
+    min-height: auto;
+  }
+
+  .list-box {
+    max-height: 270px;
+  }
+}
+
+@media (max-width: 640px) {
+  .organization-page {
+    padding: 0.6rem;
+  }
+
+  .organization-top-card h1 {
+    font-size: 1.35rem;
+  }
+
+  .organization-body {
+    gap: 0.75rem;
+  }
+}

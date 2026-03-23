@@ -37,7 +37,7 @@ async function addMemberToOrganizationController(req,res,_next){
                         return
                 }
 
-                organization.members.push(memberId)
+                organization.members.push(Number(memberId))
 
                 store.organizations = store.organizations.map(organization1=>organization1.id===Number(organizationId)?organization:organization1)
 
@@ -121,7 +121,7 @@ async function getAllowMemberLists(req,res,_next){
 
                 const allowedMembers = store.users.filter(user=>!members.includes(user.id)).map(mem=>({
                         id:mem.id,
-                        name:mem.username
+                        username:mem.username
                 }))
                 sendSuccess(res,STATUS_CODE.OK,{allowedMembers},MESSAGES.MEMBER_ADDED_TO_ORGANIZATION)
 
