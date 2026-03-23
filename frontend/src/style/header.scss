@@ -1,0 +1,54 @@
+.app-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background-color: var(--accent-color);
+  color: #fff;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.app-header .brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+}
+
+.app-header .actions {
+  display: flex;
+  align-items: center;
+}
+
+.logout-button,
+.profile-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 0.45rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.profile-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: block;
+}
+
+.logout-button:hover,
+.profile-button:hover,
+.app-header .brand:hover {
+  opacity: 0.9;
+}

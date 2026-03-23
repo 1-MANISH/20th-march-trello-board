@@ -33,6 +33,27 @@
                         "description": "mikeyOrganization organization by mikey",
                         "admin": 1,
                         "members": []
+                },
+                {
+                        "id": 3,
+                        "name": "mikeyOrganization2",
+                        "description": "mikeyOrganization2 organization by mikey",
+                        "admin": 1,
+                        "members": []
+                },
+                {
+                        "id": 4,
+                        "name": "Test",
+                        "description": "Test Organization",
+                        "admin": 1,
+                        "members": []
+                },
+                {
+                        "id": 5,
+                        "name": "Test2",
+                        "description": "Test2",
+                        "admin": 1,
+                        "members": []
                 }
         ],
         "boards": [
@@ -50,6 +71,11 @@
                         "id": 3,
                         "title": "DSA contest platform task",
                         "organizationId": "2"
+                },
+                {
+                        "id": 4,
+                        "title": "DSA contest platform task",
+                        "organizationId": 2
                 }
         ],
         "issues": [

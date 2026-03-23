@@ -98,7 +98,40 @@ async function deleteMemberFromOrganizationController(req,res,_next){
         }
 }
 
+async function getAllowMemberLists(req,res,_next){
+        try {
+                const {organizationId} = req.params
+
+                if( !organizationId){
+                        sendError(res,STATUS_CODE.BAD_REQUEST,MESSAGES.MISSING_FIELDS)
+                        return
+                }
+
+                const filepath = getFilePath('../models/store.json')
+                const store = await readFileData(filepath,'utf-8')
+
+                const organization = store.organizations.find(organization=>organization.id===Number(organizationId))
+
+                if(!organization){
+                        sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.ORGANIZATION_NOT_FOUND)
+                        return
+                }
+
+                const members  = organization.members
+
+                const allowedMembers = store.users.filter(user=>!members.includes(user.id)).map(mem=>({
+                        id:mem.id,
+                        name:mem.username
+                }))
+                sendSuccess(res,STATUS_CODE.OK,{allowedMembers},MESSAGES.MEMBER_ADDED_TO_ORGANIZATION)
+
+        } catch (error) {
+                sendError(res,STATUS_CODE.SERVER_ERROR,error?.message)
+        }
+}
+
 export {
         addMemberToOrganizationController,
-        deleteMemberFromOrganizationController
+        deleteMemberFromOrganizationController,
+        getAllowMemberLists
 }

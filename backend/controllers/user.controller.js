@@ -108,8 +108,18 @@ async function logoutController(req,res,_next){
                 sendError(res,STATUS_CODE.SERVER_ERROR,error?.message)
         }
 }
+
+async function getMyProfileController(req,res,_next){
+        try {
+                const user = req.user
+                sendSuccess(res,STATUS_CODE.OK,user,MESSAGES.SUCCESS)
+        } catch (error) {
+                sendError(res,STATUS_CODE.SERVER_ERROR,error?.message)
+        }
+}
 export {
         signupController,
         loginController,
-        logoutController
+        logoutController,
+        getMyProfileController
 }

@@ -34,7 +34,8 @@ const MESSAGES = {
         CAN_PERFORM_ACTION:"Only organization admin or members can perform this action",
         BOARD_CREATED:"New board created successfully",
         BOARD_NOT_FOUND:"Board not found",
-        CREATE_ISSUE_SUCCESS:"New issue created successfully"
+        CREATE_ISSUE_SUCCESS:"New issue created successfully",
+        SUCCESS:"Details fetched successfully"
 }
 
 const TOKEN_NAME = "trello_token"

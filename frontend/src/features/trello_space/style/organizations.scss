@@ -1,0 +1,159 @@
+.organizations-page {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(320px, 1fr);
+  gap: 1.2rem;
+  height: 100vh;
+  padding: 1.2rem;
+  background: #f4f6ff;
+}
+
+.org-list-panel,
+.org-form-panel {
+  background: #fff;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(39, 67, 171, 0.16);
+  box-shadow: rgba(51, 80, 160, 0.1) 0 5px 20px;
+  overflow: hidden;
+}
+
+.org-list-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.org-list-panel h2,
+.org-form-box h2 {
+  margin: 0;
+  padding: 1rem;
+  font-size: 1.3rem;
+  color: var(--accent-color);
+  border-bottom: 1px solid rgba(120, 135, 186, 0.25);
+}
+
+.org-list {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0.8rem;
+  height: calc(100vh - 100px);
+}
+
+.org-item {
+  border: 1px dashed rgba(61, 99, 221, 0.35);
+  border-radius: 0.65rem;
+  padding: 0.8rem;
+  margin-bottom: 0.75rem;
+  background: rgba(61, 99, 221, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.org-item h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.org-item p {
+  margin: 0;
+  color: #4f5575;
+  font-size: 0.92rem;
+}
+
+.empty-state {
+  color: #6f759a;
+  text-align: center;
+  padding: 1.4rem;
+  font-style: italic;
+}
+
+.org-form-panel {
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.org-form-box {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border: 1px solid rgba(97, 122, 207, 0.2);
+  border-radius: 0.7rem;
+  padding: 1.65rem;
+}
+
+.org-form-box form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.org-form-box input,
+.org-form-box textarea {
+  width: 100%;
+  border: 1px solid rgba(103, 114, 166, 0.4);
+  border-radius: 0.55rem;
+  padding: 0.65rem 0.78rem;
+  font-size: 0.95rem;
+  color: #2b3150;
+}
+
+.org-form-box label {
+  font-size: 0.9rem;
+  color: #4f5480;
+  font-weight: 600;
+}
+
+.primary-btn {
+  border: 0;
+  border-radius: 0.55rem;
+  background-color: var(--accent-color);
+  color: #fff;
+  padding: 0.72rem 0.96rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  color: #bf1e1e;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* custom scrollbar */
+.org-list::-webkit-scrollbar {
+  width: 9px;
+}
+
+.org-list::-webkit-scrollbar-track {
+  background: #e6e9f6;
+  border-radius: 999px;
+}
+
+.org-list::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 999px;
+}
+
+.org-list::-webkit-scrollbar-thumb:hover {
+  background: #1f41c2;
+}
+
+@media (max-width: 920px) {
+  .organizations-page {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .org-list {
+    height: 280px;
+  }
+}
