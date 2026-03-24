@@ -1,5 +1,5 @@
 
-import { getAllOrganizations, getOrganizationDetails ,createOrganization, addMemberToOrganization, deleteMemberFromOrganization, createBoard, createIssue, updateIssueStatus, getAllowedMembersList} from "../services/trello.api"
+import { getAllOrganizations, getOrganizationDetails,getAllBoardIssues ,createOrganization, addMemberToOrganization, deleteMemberFromOrganization, createBoard, createIssue, updateIssueStatus, getAllowedMembersList} from "../services/trello.api"
 import {useTrelloSpaceContext} from "../trellospace.context"
 
 
@@ -86,6 +86,19 @@ export const useTrello = () =>{
                 }
         }
 
+        const handleGetAllBoardIssues = async({boardId})=>{
+                try {
+                        setFLoading(true)
+                        const data = await getAllBoardIssues({boardId})
+                        setIssues( data.issues)
+                } catch (error) {
+                        setIssues(null)
+                        throw error
+                }finally{
+                        setFLoading(false)
+                }
+        }
+
         const handleCreateIssue = async({organizationId,boardId,title,description})=>{
                  try {
                          setTLoading(true)
@@ -123,6 +136,7 @@ export const useTrello = () =>{
                 handleDeleteMemberFromOrganization,
                 handleCreateBoard,
                 handleCreateIssue,
-                handleUpdateIssueStatus
+                handleUpdateIssueStatus,
+                handleGetAllBoardIssues
         }
 }

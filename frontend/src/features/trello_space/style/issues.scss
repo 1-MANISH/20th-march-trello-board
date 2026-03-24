@@ -1,0 +1,134 @@
+.issues-page {
+  min-height: calc(100vh - 80px);
+  padding: 0.9rem;
+  background: linear-gradient(180deg, #f4f7ff 0%, #f9fbff 100%);
+}
+
+.issues-create-box {
+  max-width: 900px;
+  margin: 0 auto 1rem;
+  background: #fff;
+  border: 1px solid rgba(55, 92, 212, 0.24);
+  border-radius: 0.8rem;
+  box-shadow: rgba(40, 77, 171, 0.12) 0 5px 18px;
+  padding: 1.1rem;
+}
+
+.issues-create-box h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.35rem;
+  color: var(--accent-color);
+}
+
+.issues-form {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.issues-form input,
+.issues-form textarea {
+  width: 100%;
+  border: 1px solid rgba(117, 136, 182, 0.45);
+  border-radius: 0.58rem;
+  padding: 0.68rem 0.85rem;
+  background: #fff;
+  color: #22324f;
+  font-size: 0.95rem;
+}
+
+.issues-form textarea {
+  min-height: 95px;
+  resize: vertical;
+}
+
+.primary-btn {
+  border: 0;
+  border-radius: 0.62rem;
+  background: var(--accent-color);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+}
+
+.issues-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.issues-column {
+  background: #fff;
+  border: 1px solid rgba(46, 77, 168, 0.18);
+  border-radius: 0.8rem;
+  padding: 0.72rem;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+.issues-column h3 {
+  margin: 0 0 0.7rem;
+  color: #243675;
+  font-size: 1.1rem;
+}
+
+.issue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 40px;
+}
+
+.issue-card {
+  background: #eef2ff;
+  border: 1px solid rgba(46, 77, 168, 0.4);
+  border-radius: 0.58rem;
+  padding: 0.75rem;
+  cursor: grab;
+}
+
+.issue-card:active {
+  cursor: grabbing;
+}
+
+.issue-card h4 {
+  margin: 0 0 0.3rem;
+  font-size: 0.99rem;
+  color: #263462;
+}
+
+.issue-card p {
+  margin: 0;
+  color: #4e5c8e;
+  font-size: 0.84rem;
+}
+
+.empty {
+  color: #7d8bae;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 0.7rem;
+}
+
+.issues-column {
+  transition: background 0.2s ease;
+}
+
+.issues-column.drag-over {
+  background: #edf1ff;
+}
+
+@media (max-width: 1024px) {
+  .issues-board {
+    grid-template-columns: 1fr;
+  }
+
+  .issues-create-box,
+  .issues-column {
+    min-height: auto;
+  }
+}

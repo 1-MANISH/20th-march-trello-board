@@ -35,7 +35,9 @@ const MESSAGES = {
         BOARD_CREATED:"New board created successfully",
         BOARD_NOT_FOUND:"Board not found",
         CREATE_ISSUE_SUCCESS:"New issue created successfully",
-        SUCCESS:"Details fetched successfully"
+        UPDATE_ISSUE_SUCCESS:" Issue updated  successfully",
+        SUCCESS:"Details fetched successfully",
+        ISSUE_NOT_FOUND:"Issue not found"
 }
 
 const TOKEN_NAME = "trello_token"

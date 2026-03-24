@@ -6,9 +6,13 @@ import { TrelloSpaceProvider } from "./features/trello_space/trellospace.context
 const App = () => {
         return (
                 <AuthProvider>
-                        <Header />
+                                   <Header />
                         <TrelloSpaceProvider>
-                                <RouterProvider router={routes} />
+
+                                <RouterProvider router={routes} >
+                                        
+                                </RouterProvider>
+                              
                          </TrelloSpaceProvider>
                 </AuthProvider>
         )

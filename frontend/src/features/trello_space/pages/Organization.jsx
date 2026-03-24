@@ -3,6 +3,8 @@ import { useTrello } from "../hooks/useTrello"
 import { useCallback, useEffect, useState, useMemo } from "react"
 import Loader from "../../../components/Loader"
 import "../style/organization.scss"
+import { IoPersonRemove } from "react-icons/io5";
+
 
 const Organization = () => {
         const params = useParams()
@@ -129,7 +131,7 @@ const Organization = () => {
                                                                                 <small>{member.email || "No email"}</small>
                                                                         </div>
                                                                         <button className="danger-btn" onClick={() => onDeleteMember(member.id)} disabled={tLoading}>
-                                                                                {tLoading?"Removing....":"Remove member"}
+                                                                                {tLoading?"Removing....":<IoPersonRemove/>}
                                                                         </button>
                                                                 </article>
                                                         ))
@@ -206,8 +208,6 @@ const Organization = () => {
                                                 </button>
                                         </form>
                                         </div>
-
-                                      
                                         </aside>
                                 </div>
                         </div>

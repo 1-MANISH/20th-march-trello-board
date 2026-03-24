@@ -67,6 +67,15 @@ export async function createBoard({organizationId,title}){
         }
 }
 
+export async function getAllBoardIssues({boardId}){
+        try {
+                const response = await axiosInstance.get(`/api/v1/issue/${boardId}`)
+
+                return response.data.data
+        } catch (error) {
+                throw error
+        }
+}
 export async function createIssue({organizationId,boardId,title,description}){
         try {
                 const response = await axiosInstance.post(`/api/v1/issue/create?organizationId=${organizationId}&boardId=${boardId}`,{

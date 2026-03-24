@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.25rem;
+  padding: 0.6rem 1.25rem;
   background-color: var(--accent-color);
   color: #fff;
   border-bottom: 2px solid rgba(0, 0, 0, 0.12);
@@ -13,7 +13,7 @@
 }
 
 .app-header .brand {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -31,7 +31,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.45rem 0.85rem;
+  padding: 0.15rem 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 0.45rem;
   background-color: rgba(255, 255, 255, 0.2);
@@ -51,4 +51,13 @@
 .profile-button:hover,
 .app-header .brand:hover {
   opacity: 0.9;
+}
+
+.header-left{   
+       display:flex;
+       gap:0.5rem;
+}
+.header-profile{
+        display: flex;
+        gap:0.6rem;
 }
