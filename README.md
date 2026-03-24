@@ -2,6 +2,13 @@
 
 A simple, file-based Trello clone built with Node.js and React. This project implements core Trello-like functionality including organizations, boards, issues, and drag-and-drop task management. It's designed as a learning project or lightweight alternative for small teams.
 
+## Demo
+
+<video width="100%" height="400" controls autoplay muted>
+  <source src="https://drive.google.com/file/d/1p9_1Ny_OqO84SNBUktUNWwiIi4otkbmD/view?usp=sharing" type="video/mp4">
+
+</video>
+
 ## Features
 
 ### Authentication
