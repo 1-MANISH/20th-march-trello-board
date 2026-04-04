@@ -1,6 +1,7 @@
+import { BoardModel } from "../models/board.model.js"
+import { IssueModel } from "../models/issues.model.js"
+import { OrganizationModel } from "../models/organizations.model.js"
 import { MESSAGES, STATUS_CODE } from "../utils/constants.js"
-import { readFileData, writeFileData } from "../utils/filereadwrite.js"
-import { getFilePath } from "../utils/getfilepath.js"
 import { sendError, sendSuccess } from "../utils/response.js"
 
 async function createIssueController(req,res,_next){
@@ -14,40 +15,32 @@ async function createIssueController(req,res,_next){
                         return
                }
 
-               const filepath = getFilePath('../models/store.json')
-               const store = await readFileData(filepath,'utf-8')
-
-               const organization = store.organizations.find(organization=>organization.id===Number(organizationId))
+               const organization =await OrganizationModel.findOne({_id:organizationId})
 
                if(!organization){
                         sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.ORGANIZATION_NOT_FOUND)
                         return
                }
 
-               const isAllowed= organization.admin===user.id || organization.members.includes(user.id)
+               const isAllowed= organization.admin.toString()===user.id || organization.members.includes(user.id)
                if(!isAllowed){
                         sendError(res,STATUS_CODE.FORBIDDEN,MESSAGES.CAN_PERFORM_ACTION)
                         return
                }
 
-               const board = store.boards.find(board=>board.id===Number(boardId))
+               const board = await BoardModel.findOne({_id:boardId})
 
                if(!board){
                         sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.BOARD_NOT_FOUND)
                         return
                }
 
-               const newIssue= {
-                        id:store.issues.length+1,
-                        title,
+               const newIssue= await IssueModel.create({
+                         title,
                         description,
-                        boardId:board.id,
+                        boardId:board._id,
                         state:"next_up"
-               }
-
-               store.issues.push(newIssue)
-
-               await writeFileData(filepath,store)
+               })
 
                sendSuccess(res,STATUS_CODE.CREATED,{issue:newIssue},MESSAGES.CREATE_ISSUE_SUCCESS)
         } catch (error) {
@@ -65,11 +58,9 @@ async function getBoardIssuesController(req,res,_next){
                         return
                }
 
-               const filepath = getFilePath('../models/store.json')
-               const store = await readFileData(filepath,'utf-8')
 
-               const board = store.boards.find(b=>b.id===Number(boardId))
-               const organization = store.organizations.find(org=>org.id===board.organizationId)
+               const board =await BoardModel.findOne({_id:boardId})
+               const organization = await OrganizationModel.findOne({_id:board.organizationId})
 
                if(!board){
                         sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.BOARD_NOT_FOUND)
@@ -79,17 +70,16 @@ async function getBoardIssuesController(req,res,_next){
                         sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.ORGANIZATION_NOT_FOUND)
                }
 
-               const isAllowed= organization.admin===user.id || organization.members.includes(user.id) 
+               const isAllowed= organization.admin.toString()===user.id || organization.members.includes(user.id) 
                if(!isAllowed){
                         sendError(res,STATUS_CODE.FORBIDDEN,MESSAGES.CAN_PERFORM_ACTION)
                         return
                }
 
 
-
-               const issues = store.issues.filter(issue=>issue.boardId===board.id).map(issue=>{
+               const issues = (await IssueModel.find({boardId:board._id}).lean()).map(issue=>{
                         return {
-                                id:issue.id,
+                                id:issue._id,
                                 title:issue.title,
                                 description:issue.description,
                                 state:issue.state,
@@ -114,45 +104,44 @@ async function updateIssueStateController(req,res,_next){
                         return
                }
 
-               const filepath = getFilePath('../models/store.json')
-               const store = await readFileData(filepath,'utf-8')
-
-               const issue = store.issues.find(issue=>issue.id===Number(issueId))
-
+               const issue = await IssueModel.findOne({_id:issueId})
                if(!issue){
                         sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.ISSUE_NOT_FOUND)
                         return
                }
 
-                const board = store.boards.find(board=>board.id===issue.boardId)
+                const board = await BoardModel.findOne({_id:issue.boardId})
                  if(!board){
                         sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.BOARD_NOT_FOUND)
                         return
                }
-               const organization = store.organizations.find(org=>org.id===board.organizationId)
+               const organization = await OrganizationModel.findOne({_id:board.organizationId}) 
 
                if(!organization){
                           sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.ORGANIZATION_NOT_FOUND)
                }
 
-               const isAllowed= organization.admin===user.id || organization.members.includes(user.id)
+               const isAllowed= organization.admin.toString()===user.id || organization.members.includes(user.id)
                if(!isAllowed){
                         sendError(res,STATUS_CODE.FORBIDDEN,MESSAGES.CAN_PERFORM_ACTION)
                         return
                }
 
               
-               const updateIssue= {
-                        id:issue.id,
-                        title:issue.title,
-                        description:issue.description,
-                        boardId:board.id,
-                        state:status
-               }
+        //        const updateIssue= {
+        //                 id:issue.id,
+        //                 title:issue.title,
+        //                 description:issue.description,
+        //                 boardId:board.id,
+        //                 state:status
+        //        }
 
-               store.issues = store.issues.map(issus=>issus.id===issue.id ? updateIssue:issus)
-
-               await writeFileData(filepath,store)
+                const updateIssue = await  IssueModel.updateOne(
+                        {_id:issue._id},
+                        {
+                                state:status
+                        }
+                )
 
                sendSuccess(res,STATUS_CODE.OK,{updateIssue},MESSAGES.UPDATE_ISSUE_SUCCESS)
         } catch (error) {
