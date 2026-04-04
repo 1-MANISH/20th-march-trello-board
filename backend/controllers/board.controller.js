@@ -1,6 +1,6 @@
+import { BoardModel } from "../models/board.model.js"
+import { OrganizationModel } from "../models/organizations.model.js"
 import { MESSAGES, STATUS_CODE } from "../utils/constants.js"
-import { readFileData, writeFileData } from "../utils/filereadwrite.js"
-import { getFilePath } from "../utils/getfilepath.js"
 import { sendError, sendSuccess } from "../utils/response.js"
 
 async function createBoardController(req,res,_next){
@@ -14,31 +14,25 @@ async function createBoardController(req,res,_next){
                         return
                }
 
-               const filepath = getFilePath('../models/store.json')
-               const store = await readFileData(filepath,'utf-8')
-
-               const organization = store.organizations.find(organization=>organization.id===Number(organizationId))
+               const organization = await OrganizationModel.findOne({_id:organizationId})
 
                if(!organization){
                         sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.ORGANIZATION_NOT_FOUND)
                         return
                }
 
-               const isAdmin = organization.admin===user.id
+               const isAdmin = organization.admin.toString()===user.id
+
                if(!isAdmin){
                         sendError(res,STATUS_CODE.FORBIDDEN,MESSAGES.ADMIN_CAN_PERFORM_ACTION)
                         return
                }
 
-               const newBoard = {
-                        id:store.boards.length+1,
+               const newBoard = await BoardModel.create({
                         title,
                         organizationId:organization.id
-               }
+               })
 
-               store.boards.push(newBoard)
-
-               await writeFileData(filepath,store)
 
                sendSuccess(res,STATUS_CODE.CREATED,{board:newBoard},MESSAGES.BOARD_CREATED)
         } catch (error) {

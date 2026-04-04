@@ -9,6 +9,7 @@ import orgRoutes from "./routes/organization.route.js"
 import memberRoutes from "./routes/member.routes.js"
 import boardRoutes from "./routes/board.route.js"
 import issueRoutes from "./routes/issue.route.js"
+import { connectDB } from "./utils/dbConnect.js"
 
 // configurations
 dotenv.config()
@@ -17,6 +18,8 @@ const app  = express()
 const PORT = ENV.PORT || 4000
 const nodeEnv = ENV.NODE_ENV || "development"
 
+
+connectDB()
 
 // middlewares
 app.use(express.json())

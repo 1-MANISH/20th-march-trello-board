@@ -1,6 +1,7 @@
+import { BoardModel } from "../models/board.model.js"
+import { OrganizationModel } from "../models/organizations.model.js"
+import { UserModel } from "../models/user.model.js"
 import { MESSAGES, STATUS_CODE } from "../utils/constants.js"
-import { readFileData, writeFileData } from "../utils/filereadwrite.js"
-import { getFilePath } from "../utils/getfilepath.js"
 import { sendError, sendSuccess } from "../utils/response.js"
 
 async function createOrganizationController(req,res,_next){
@@ -13,20 +14,12 @@ async function createOrganizationController(req,res,_next){
                         return
                 }
 
-                const filepath = getFilePath('../models/store.json')
-                const store = await readFileData(filepath,'utf-8')
-
-                const newOrganization = {
-                        id:store.organizations.length+1,
+                const newOrganization = await OrganizationModel.create({
                         name,
                         description,
                         admin:user.id,
                         members:[]
-                }
-
-                store.organizations.push(newOrganization)
-
-                await writeFileData(filepath,store)
+                })
 
                 sendSuccess(res,STATUS_CODE.CREATED,{organization:newOrganization},MESSAGES.ORGANIZATION_CREATED)
 
@@ -40,14 +33,17 @@ async function getAllOrganizationsController(req,res,_next){
         try {
                 const user  = req.user
 
-                const filepath = getFilePath('../models/store.json')
-                const store = await readFileData(filepath,'utf-8')
-
-                const organizations = store.organizations.filter(organization=>organization.admin===user.id || organization.members.includes(user.id))
+                const organizations = await OrganizationModel.find({
+                       $or:[
+                        {admin:user.id},
+                        { members:{$in:[user.id]}}
+                       ]
+                }).lean()
 
                 const detailedOrganizations = organizations.map(organization=>{
                         return{
                                 ...organization,
+                                id:organization._id,
                                 admin:req.user
                         }
                 })
@@ -61,25 +57,35 @@ async function getOrganizationController(req,res,_next){
                 const {organizationId} = req.params
                 const user  = req.user
 
-                const filepath = getFilePath('../models/store.json')
-                const store = await readFileData(filepath,'utf-8')
 
-                const organization = store.organizations.find(organization=>organization.id===Number(organizationId) && (organization.admin===user.id || organization.members.includes(user.id)))
+                const organization = await OrganizationModel.findOne({
+                       $and:[
+                                {_id:organizationId},
+                               {
+                                 $or:[
+                                       { members:{$in:[user.id] }},
+                                        {admin:user.id}
+                                 ]
+                               }
+                       ]
+                }).lean()
 
                 if(!organization){
                         sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.ORGANIZATION_NOT_FOUND)
                         return
                 }
+                const members = []
+                for(let i = 0 ;i < organization.members.length;i++){
+                         const user = await UserModel.findOne({_id:organization.members[i]})
+                         members.push({
+                                id:user._id,
+                                username:user.username,
+                        })
+                }
+                const detailedOrganization = {...organization,id:organization._id,admin:req.user,members}
 
-
-                const detailedOrganization = {...organization,admin:req.user,members:organization.members.map(memberId=>{
-                        return{
-                                id:memberId,
-                                username:store.users.find(user=>user.id===memberId).username,
-                        }
-                })}
-
-                const boards = store.boards.filter(board=>board.organizationId===Number(organizationId))
+        
+                const boards = await BoardModel.find({organizationId:organizationId}).lean()
                 detailedOrganization.boards = boards
                 sendSuccess(res,STATUS_CODE.OK,{organization:detailedOrganization},MESSAGES.ORGANIZATIONS_FETCHED)
 

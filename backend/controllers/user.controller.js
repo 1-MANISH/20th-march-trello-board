@@ -1,15 +1,16 @@
 
-import { readFileData, writeFileData } from "../utils/filereadwrite.js"
-import { getFilePath } from "../utils/getfilepath.js"
+
 import { clearCookie, generateToken } from "../utils/token.js"
 import { MESSAGES, STATUS_CODE } from "../utils/constants.js"
 import { sendError, sendSuccess } from "../utils/response.js"
 import { comparePassword, getHashPassword } from "../utils/hashpassword.js"
+import { UserModel } from "../models/user.model.js"
 
 async function signupController(req,res,_next){
 
         try {
                 const {username,password} = req.body
+
 
                 if(!username || !password){
                         sendError(res,STATUS_CODE.BAD_REQUEST,MESSAGES.MISSING_FIELDS)
@@ -21,11 +22,8 @@ async function signupController(req,res,_next){
                         return
                 }
 
-                const filePath = getFilePath("../models/store.json")
 
-                const store = await readFileData(filePath,"utf-8")
-
-                const userExists = store.users.find(user=>user.username===username)
+                const userExists = await UserModel.findOne({username:username})
 
                 if(userExists){
                         sendError(res,STATUS_CODE.CONFLICT,MESSAGES.USER_EXISTS)
@@ -34,17 +32,12 @@ async function signupController(req,res,_next){
 
                 const hashPassword = await getHashPassword(password)
 
-                const newUser = {
-                        id:store.users.length+1,
-                        username,
+                const newUser = await UserModel.create({
+                          username,
                         password:hashPassword
-                }
-
-                store.users.push(newUser)
+                })
 
                 const token = generateToken({username:newUser.username},res)
-
-                await writeFileData(filePath,store)
 
                 sendSuccess(res,STATUS_CODE.CREATED,{username:newUser.username,token},MESSAGES.SIGNUP_SUCCESS)
 
@@ -68,12 +61,8 @@ async function loginController(req,res,_next){
                         sendError(res,STATUS_CODE.BAD_REQUEST,MESSAGES.PASSWORD_LENGTH)
                         return
                 }
-
-                const filePath = getFilePath("../models/store.json")
-
-                const store =await readFileData(filePath,"utf-8")
-
-                const userExists = store.users.find(user=>user.username===username)
+                
+                const userExists = await UserModel.findOne({username:username})
 
                 if(!userExists){
                         sendError(res,STATUS_CODE.NOT_FOUND,MESSAGES.USER_NOT_FOUND)
